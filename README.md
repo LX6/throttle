@@ -1,0 +1,2 @@
+Simple thottling application.
+Ncurses
