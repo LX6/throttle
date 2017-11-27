@@ -154,6 +154,7 @@ int main ()
     bin(((int)100*WS*MYR*seconds)/(WDS*WHS*3600));
 //    bin2(((int)100*WS*MYR*seconds)/(WDS*WHS*3600));
     attron(COLOR_PAIR(1));
+    printw("----+-++\n");
     printw("xout Q%6.2fQ\n", ((tm.tm_mday-1)*WS*MYR)/32+(WS*MYR*seconds)/(WDS*WHS*3600));
     attron(COLOR_PAIR(2));
     
