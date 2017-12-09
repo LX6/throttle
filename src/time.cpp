@@ -10,7 +10,7 @@
 #define WSECS 32400
 #define WDS 22
 #define WHS 9
-//#define WS 0.33
+//#define WS 0.33 -- this is old now , going to the new order law
 #define WS 0.5
 #define MYR 10000
 
@@ -108,14 +108,11 @@ int main ()
     
   }
   
-  printw ("%.f seconds since January 1, 2000 in the current timezone\n", (i-seconds));
-  printw ("%.f seconds since January 1, 2000 in the current timezone\n", seconds);
-
 //  tm.tm_mday = 28;
   time(&timer);
   seconds = difftime(timer,mktime(&tm));
 //  percent = seconds; 
-  printw ("%2.2f/%2.2f seconds %d since January 1, 2000 in the current timezone\n", 100-100*(WSECS-seconds)/WSECS, 100*(WSECS-seconds)/WSECS, tm.tm_wday);
+  printw ("WTimer slide: %2.2f/%2.2f DWeek counter: %d \n", 100-100*(WSECS-seconds)/WSECS, 100*(WSECS-seconds)/WSECS, tm.tm_wday);
 //  int tmt = tm.tm_wday-1;
   printw ("%2.2f seconds %d since January 1, 2000 in the current timezone\n", 100*((tm.tm_wday-1)*WSECS+seconds)/(5*WSECS), tm.tm_wday);
   printw ("%.f seconds since January 1, 2000 in %2.4f the current timezone\n", (WSECS-seconds), (WSECS-seconds)/3600);
@@ -141,10 +138,10 @@ int main ()
     move (9,5);
     printw("%.f in %2.4f\n", (WSECS-seconds), (WSECS-seconds)/3600);
     attron(COLOR_PAIR(1));
-    printw("out A%4.2fA", (WS*MYR*seconds)/(WDS*WHS*3600));
-    printw("out b%4.2fb", (WS*MYR*seconds)/(WDS*WHS*3600)-DS.xpen1);
-    printw("out V%4.2fV", (WS*MYR*seconds)/(WDS*WHS*3600)-DS.xpen1-DS.xpen2);
-    //printw("outA %16d", bin(((int)100*WS*MYR*seconds)/(WDS*WHS*3600)));
+    printw("out_ok: %4.2f -> ", (WS*MYR*seconds)/(WDS*WHS*3600));
+    printw("out_Perfect: %4.2f -> ", (WS*MYR*seconds)/(WDS*WHS*3600)-DS.xpen1);
+    printw("out EXCELEN: %4.2f\n", (WS*MYR*seconds)/(WDS*WHS*3600)-DS.xpen1-DS.xpen2);
+
     printw("\nS1 %4.2f", DS.xpen1);
     printw("\nS2 %4.2f", DS.xpen2);
     printw("\nS3 %4.2f", DS.xpen3);
@@ -154,8 +151,8 @@ int main ()
     bin(((int)100*WS*MYR*seconds)/(WDS*WHS*3600));
 //    bin2(((int)100*WS*MYR*seconds)/(WDS*WHS*3600));
     attron(COLOR_PAIR(1));
-    printw("----+-++\n");
-    printw("xout Q%6.2fQ\n", ((tm.tm_mday-1)*WS*MYR)/32+(WS*MYR*seconds)/(WDS*WHS*3600));
+    printw("->-->-+-++^\n");
+    printw("xout Q%6.2fQ\n", ((tm.tm_mday-1)*WS*MYR)/31+(WS*MYR*seconds)/(WDS*WHS*3600));
     attron(COLOR_PAIR(2));
     
     printw ("%2.2f/%2.2f seconds %d since January 1, 2000 in the current timezone\n", 100-100*(WSECS-seconds)/WSECS, 100*(WSECS-seconds)/WSECS, tm.tm_wday);
@@ -163,8 +160,10 @@ int main ()
     printw ("%2.2f seconds |__| %d since January 1, 2000 in the current timezone\n", 100*((tm.tm_wday-1)*WSECS+seconds)/(5*WSECS), tm.tm_wday);
 
     move (0,0);
-    printw ( "/||\\" );
+    printw ( "   |" );
     move (1,0);
+    printw ( "/||\\" );
+    move (2,0);
     printw ( "|__|");
 
     refresh();
