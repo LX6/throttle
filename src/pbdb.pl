@@ -27,10 +27,10 @@ my $dbh = new BerkeleyDB::Btree(
 
 my $cursor = $dbh->db_cursor() ;
 my $k; my $v;
-my $sum = 0;
+my $sum = 0; my $summ = 0;
 while ($cursor->c_get($k, $v, DB_NEXT) == 0) {
     my ($parr, $large,$note,$xpen) = unpack 'L L Z56 f', $v;
-    if ($parr == 1509613200) {
+    if ($parr == 1504926002) {
         print $parr," +++++| ",$large," | ", $note," | ", $xpen, " V\n"   ;
         $cursor->c_del()
         or die "$BerkeleyDB::Error\n";;
@@ -41,7 +41,8 @@ while ($cursor->c_get($k, $v, DB_NEXT) == 0) {
 #    printf("%d  - ,%s\n", \$rec->empid, \$rec->value[1]);
 #    printf( "Key: %s", $k, ", value: %s", $v . "\n");
 #    print $v,"\n";
-    print $parr," | ",$large," | ", $note," | ", $xpen, "\n"   ;
+    if ((scalar localtime $parr) =~ m/$ARGV[0]/ ) { $summ += $xpen; }
+    print $parr," | ",scalar localtime $parr, "|",$large," | ", $note," | ", $xpen, "\n"   ;
     $sum += $xpen;
 #     print length($v), "\n";
 #    print unpack("L*",$k), " ", $larg, " ", $not, " ", $xp,"\n";
@@ -57,5 +58,6 @@ undef $cursor ;
 undef $dbh ;
 
 print "----------------\n",$sum, "\n"   ;
+print "----------------\n for $ARGV[0]: ",$summ, "\n"   ;
 
 
